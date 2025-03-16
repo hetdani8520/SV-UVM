@@ -9,10 +9,17 @@ class hello_world_test extends uvm_test;
     super.new(name,parent);
   endfunction
   
+  function void end_of_elaboration_phase(uvm_phase phase);
+    uvm_top.print_topology(); //uvm_top is a handle to uvm_root class & uvm_test_top is the instance name of the test(in this case hello_world_test) we run
+  endfunction
+  
   virtual task run_phase(uvm_phase phase);
     super.run_phase(phase);
+    phase.raise_objection(this, "raised objection");
     `uvm_info(this.get_full_name(),$sformatf("Hello World\n"),UVM_LOW)
+    phase.drop_objection(this, "drop objection");
   endtask
+  
 endclass
 endpackage
   
