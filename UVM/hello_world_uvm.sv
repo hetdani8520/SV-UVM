@@ -10,7 +10,7 @@ class hello_world_test extends uvm_test;
   endfunction
   
   function void end_of_elaboration_phase(uvm_phase phase);
-    uvm_top.print_topology(); //uvm_top is a handle to uvm_root class & uvm_test_top is the instance name of the test(in this case hello_world_test) we run
+    uvm_top.print_topology(); //uvm_top is a handle to uvm_root class & uvm_test_top is the instance name of the test(in this case hello_world_test) class we run
   endfunction
   
   virtual task run_phase(uvm_phase phase);
