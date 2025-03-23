@@ -32,7 +32,7 @@ fork
       run_c();
     join_none
       
-    disable fork; //This will disable run_c & run_b child threads
+    disable fork; //This will disable run_c child thread
   end
 join      
       $display("disabled all threads at time=%t",$time);
