@@ -1,6 +1,6 @@
 //This code removes duplicate elements from dyn arr & shrinks the array post-removal of duplicate elements
 //Note: In the process above, the dyn_arr does not preserve its original element order. (TODO:maybe a future enhancement)
-module duplicate_elem_in_array;
+module rem_dup_elem_in_array;
   bit [3:0] dyn_arr[] = '{1,2,3,4,5,4,6,6,7,8,8,8};
   bit [3:0] asso[int];
   
