@@ -1,0 +1,12 @@
+Learnings:
+1)I use ignore_bins to remove redundant combinations in a cross (while writing cross coverage, thinking of legal permutations is more difficult. so one can think of illegal combinations & ignore those & then using the vendor GUI to check if they now only see all legal combos)
+2)one can define coverpoint for same variable (with different explicit bin set under each), just use different label for them to be distinguishable.
+3)define explicit bins under a coverpoint to constrain your coverpoint scope & it is often more useful during cross coverage as now you have definite cross products.
+4)don't use default if not extremely necessary. bins defined with default cannot be crossed in cross coverage. 
+
+References:
+1)type_option vs option:- https://stackoverflow.com/questions/28968091/option-type-option-in-system-verilog
+2)same signal coverpoint using diff labels:- https://verificationacademy.com/forums/t/in-coverage-can-we-have-same-signal-assigned-to-different-coverpoints/32927
+
+TODOs:
+1)create func coverage class to cover all possible address range combinations in a 16-bit address space.
