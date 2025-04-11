@@ -1,16 +1,16 @@
 # End of Test Mechanisms
 ### How to cleanly end the test i.e. the run phase?
-1. Can't wait for drivers & monitors which have forever loops which way never return
+1. Can't wait for drivers & monitors which have forever loops which will never return
 2. UVM tries to end task-based phases at the end of each time slot, unless they raise an objection
 3. Common practice: raise objections in test class  & scoreboards.
 4. What about dropped transactions (maybe due to a DUT bug)? Scorboard needs a timeout in this case. 
 
 ## Extend or Limit the simulation (set_drain_time/set_timeout)
-### When the test drops an objection after the top sequence ends, we still need to wait for the last transactions (based on stimulus) to propagate through the design. For that matter, there are two built-in functions in UVM which can delay/limit the end of phase post objection is dropped by the test.
-1. set_drain_time()-delay the end of this phase for a fixed time after the last objection is dropped (refer set_drain_time.sv for more information on its use-case) - run_phase will now end after Xns (defined by invoking set_drain_time()) post last dropped objection
-2. set_timeout() - Global timeout with absolute limit (default:9200s)
-2.a: only works in run_phase
-2.b: must call at time 0
+1. When the test drops an objection after the top sequence ends, we still need to wait for the last transactions (based on stimulus) to propagate through the design. For that matter, there are two built-in functions in UVM which can delay/limit the end of phase post objection is dropped by the test.
+2. set_drain_time()-delay the end of this phase for a fixed time after the last objection is dropped (refer set_drain_time.sv for more information on its use-case) - run_phase will now end after Xns (defined by invoking set_drain_time()) post last dropped objection
+3. set_timeout() - Global timeout with absolute limit (default:9200s)
+3. only works in run_phase
+3. must call at time 0
 
 ## Phase_ready_to_end() callback: (Extends the current phase by raising an objection)
 1. UVM calls this function just before ending every task based phase
