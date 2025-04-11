@@ -5,7 +5,7 @@
 3. Common practice: raise objections in test class  & scoreboards.
 4. What about dropped transactions (maybe due to a DUT bug)? Scorboard needs a timeout in this case. 
 
-## Extend or Limit the simulation (set_drain_time/set_timeout)
+## Extend or Limit the simulation (set_drain_time()/set_timeout())
 1. When the test drops an objection after the top sequence ends, we still need to wait for the last transactions (based on stimulus) to propagate through the design. For that matter, there are two built-in functions in UVM which can delay/limit the end of phase post objection is dropped by the test.
 2. set_drain_time()-delay the end of this phase for a fixed time after the last objection is dropped (refer set_drain_time.sv for more information on its use-case) - run_phase will now end after Xns (defined by invoking set_drain_time()) post last dropped objection
 3. set_timeout() - Global timeout with absolute limit (default:9200s)
