@@ -1,0 +1,49 @@
+TLM Learnings:
+Two major types of TLM connections:
+1)port-exp-imp or port-imp (producer-consumer connections)[put,get,peek blocking methods(also comes with non-blocking variants)]
+2)TLM analysis connections (broadcaster - subscriber connections)[analysis port,imp port - write() method]
+
+In any case above, if the txns from either producer to consumer OR from broadcaster to subscriber do not get consumed immediately, then
+there are uvm_tlm_fifo in the former scenario to store txns until consumer is ready to retrieve & there are uvm_analysis_tlm_fifo(where expected txn will be stored until actual txn arrives from monitor) in the latter scenario until the DUT actual txn has arrived from the DUT respectively.
+
+a)uvm_tlm_fifo:- https://verificationacademy.com/verification-methodology-reference/uvm/docs_1.1d/html/files/tlm1/uvm_tlm_fifos-svh.html#uvm_tlm_fifo
+b)uvm_analysis_tlm_fifo:- https://verificationacademy.com/verification-methodology-reference/uvm/docs_1.1d/html/files/tlm1/uvm_tlm_fifos-svh.html#uvm_tlm_analysis_fifo
+
+=>Multiple streams of transactions arriving from monitor (broadcaster) into subscriber will have same name for all analysis_imp write() methods.
+Since SV does not support function overloading, hence uvm defines macros to rename & append a user-defined suffix to implementation of write methods.
+
+Macros:
+`uvm_analysis_impl_decl();
+
+Example:
+`uvm_analysis_impl_decl(_actual)
+`uvm_analysis_impl_decl(_expected)
+
+//let us assume we have multiple analysis port to export connections coming into the scb.
+//one would be from predictor (predictor-scb) (which will potentiallyy have EXPECTED txn)
+//one would be from monitor/agent (monitor-scb) (which will potentiallyy have ACTUAL txn)
+class scb extends from uvm_scoreboard;
+//factory regs
+
+uvm_analysis_imp_expected#(txn,this) imp1;
+uvm_analysis_imp_actual#(txn,this) imp2;
+
+//This will get triggered whenever expected txn is produced by predictor
+virtual function void write_expected(txn);
+endfunction
+
+//This will get triggered whenever actual txn from DUT is broadcasted from monitor to all its connected subscribers
+virtual function void write_actual(txn);
+endfunction
+
+endclass
+
+-----------x-----------------------x-------------------------------
+Always remember:
+1)initiator.port.connect(target.export)  ->initiator is usually components which are closer to the DUT initiating actions/broadcasting txns etc.
+a)drv-sqr comm -->driver pulls the txns from sequence sitting on sqr via pull port (one-to-one TLM port-export connection)
+b)driver is initiator & sqr in target
+c)the uvm_driver & uvm_sequencer base classes define & create pull port-export(seq_item_port & seq_item_export handles) objects, so they
+handles can be directly used in agent (based on active/passive config) to connect drv-sqr components.
+
+
