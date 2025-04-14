@@ -1,0 +1,11 @@
+We will primarily look at 2 approaches to design a uvm in-order scoreboard:
+1)Hierarchical approach:
+-->Predictor/evaluator are separate blocks
+-->Scoreboard act as container which contains predictor & evaluator objects
+-->Same sequence_item for DUT inputs & DUT outputs
+-->FIFO storage (analysis fifo to be used)
+-->predictor is a ref model, contained in uvm_component
+2)SV Queues:
+-->expected & actual results arrive through predictors & monitors respectively into the scoreboard
+-->write_expected & write_actual routines inside scoreboard (analysis port-export TLM connection)
+-->expected results stored in SV queues to account for any DUT latency
