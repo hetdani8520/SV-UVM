@@ -1,0 +1,40 @@
+//sequence of 111 & 000 not allowed & 9 bits randomized in a 16-bit variable
+
+
+class nine_bits_set_with_no_seq;
+  rand bit [15:0] a;
+  
+  constraint nine_bits_set {$countones(a) == 9;}
+  
+  constraint illegal_seq{
+    foreach(a[i]){
+      if(i<14){
+        {a[i],a[i+1],a[i+2]} != 3'b111;
+        {a[i],a[i+1],a[i+2]} != 3'b000;
+      }}}
+ 
+  /*
+  //method-2
+        constraint illegal_seq_meth2 {
+          foreach(a[i]){
+            if(i<=13){
+              !(&(a[i+:3]));  //no 111 seq
+              !(&(~a[i+:3])); //not 000 seq
+            }}}
+    */          
+endclass
+      
+module tb;
+  nine_bits_set_with_no_seq c1;
+  
+  initial begin
+    c1=new();
+    repeat(5) begin
+    assert(c1.randomize()) else
+      $fatal(0,"randomization error");
+    $display("a=%b",c1.a);
+    end
+      
+  end
+endmodule
+  

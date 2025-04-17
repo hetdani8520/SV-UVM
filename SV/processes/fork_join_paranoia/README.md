@@ -27,3 +27,4 @@ For more info ref:- https://verificationacademy.com/forums/t/semaphore-put-witho
 ## Misc References:
 1) http://sagar5258.blogspot.com/2016/02/a-process-is-built-in-class-that-allows.html
 2) https://verificationacademy.com/forums/t/fork-statement-design-exit-after-any-2-out-of-3-tasks-are-completed/34255
+3) fork..join forum:- https://verificationacademy.com/forums/tag/fork-join
