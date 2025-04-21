@@ -1,0 +1,65 @@
+Gotchas & Learnings:-
+1)assert property syntax: (Concurrent assertion)
+a1: assert property (@(posedge clk) disable iff rst
+            req |-> ack) else `uvm_fatal();
+2) Immediate assertion:
+a1:assert(a ==b);
+3)Assertions:- expectations about what the design will do
+4)Assumptions:- expectations about what INPUTS to the design (over-constraints - useful only in FV, treated as assert in dynamic sim env)
+5)covers: condition you want to see in some test (provides a true trace for a given cover) [did you see a particular input pattern atleast once or more than once?]
+E.g: for a fixed priority arbiter, we would like to see atleast a trace by FV tool where all requestors are asserted at the same time)
+cover_all_at_once: cover property(req[0] && req[1] && req[2] && req[3]);
+6)Traces/waveforms are produced for a failing assertion OR a passing cover in a FV env.
+7)Immediate Assertions Gotchas:
+To prevent simultion glitches when Immediate assertion are evaluated, we can defer their evaluation at the end of cycle:
+a)deffered --> a1: assert #0 (a==b);
+b)final --> a2: assert final (a==b);
+
+***SVA Clocking & Disable definitions:
+-->generally all SVAs should use the same clocking & disable atrributes
+-->We can do the former by the following: (encaosulate it under the top of the module where all the assertions reside)
+default clocking @(posedge clk); endclocking
+default disable iff (rst);
+
+***SVA construct Gotchas:
+1)cat ##0 dog (zero repetition or overlap sequences) [called as fusion] [dog is as fast as cat]
+2)foo[*3:$] ##1 bar ($ represents infinity or end of simulation) [foo repeats consecutively anywhere from 3 to $(end of sim) clock cycles]
+
+**Syntactic sugar:
+1)s1[+] is a shorthand for s1[*1:$] (s1 repeats (consecutively) one of more times)
+
+//Vacuous Pass:
+if the antecedent is not true, then the property is called to be Vacuously true on all cycles(until antecedent becomes true) [as consequent is not checked]
+
+//1'b1 or `1 is always true which can be used as antecedent
+
+
+//are the following same?
+a) write ##1 done |=> read
+b) write |=> done ##1 read
+Not same. Looks very same but very different. The antecedent for a) is dependent on (write ##1 done) sequence to be true whereas
+in b) write is only considered on the antecedent side as a trigger which is clearly different from b).
+
+**Don't confuse and, or, not with Boolean operators &&, ||, !
+
+***Don't confuse (Exception: initial block - behaviour is same for both in initial block at t=0)
+1)a ##1 b (continuously checked)
+2)a => b (b only checked if a is true)
+
+------------------x-----------------------------------------
+***Be careful with $stable etc.:
+1)$stable, $changed & $past use previous trace values
+What is "previous" at the start of simulation?
+-Default value is X 
+
+What does the property do?
+wire foo;
+A1: assert property($stable(foo));
+A1 claims foo is always X
+
+Rethink property, add delay or reset
+A2: assert property(##1 $stable(foo));
+----------x---------------------------------------
+
+Negating sequences (can also be used as property):
+not (a ##1 b) // a followed by b in the next cycle is never true.
