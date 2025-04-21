@@ -1,0 +1,24 @@
+How to control multiple sequences??????
+1)test classes are not reusable
+
+**A UVM Virtual sequence(container) is a sequence that controls other sequences
+-->Run child(physical) sequences in parallel or sequentially, plus delays & synchronization
+-->It does NOT generate any sequence items directly
+
+**A virtual sequence does NOT connect to a sequencer
+-->It starts other sequences, connecting to the corresponding sequencer
+
+**A virtual sequence is a sequence that creates & starts other sequences
+-->A virtual sequence does not directly generate seq_items & hence does not need to be specialized/paramterized
+-->This example has only one protocol.
+
+--------------------------------------------------------
+
+How is sqr initialized??
+->from cfg_object (assign sqr handle from agent to cfg_object sqr handle which can then be passed as arg to start() method of seq)
+->set in init_start() method
+->Extracted from cfg_db
+->directly set in the test class
+
+--------------------------------------------------------
+Refer to virtual sequence example:- virtual_sequence_ex.sv (This uses init_start() method of virtual sequence to start vseq in test class)
