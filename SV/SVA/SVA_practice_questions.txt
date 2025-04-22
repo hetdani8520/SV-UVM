@@ -23,10 +23,7 @@ Not same. Looks very same but very different. The antecedent for a) is dependent
 in b) write is only considered on the antecedent side as a trigger which is clearly different from b).
 
 TODOs: More practice questions for tom (4/15):
-a)ref:- https://www.reddit.com/r/FPGA/comments/m92htg/sva_assertion_questions/?rdt=55673
 b)ref:- https://reverent-northcutt-8163cd.netlify.app/blog/common_assertion/
-d)If vector A has at least 5 1s, then a B comes, we need to see 7 Cs in a row within 12 cycles.
-e)If A happens, C must rise in 5-10 cycles, with B not changing value until then.
 f)Refer for [*],[+] operator usage:- https://systemverilog.us/vf/goto_conseq.pdf
 g)write a systemverilog assertion such that a variable once asserted shouldn't be asserted again. by asserted again, it means if it was high it should remain high & if low remain low.
 Ans:- property sig_locks_after_first_value;
@@ -34,3 +31,4 @@ Ans:- property sig_locks_after_first_value;
   $rose(sig === 1'b0 || sig === 1'b1) |-> $stable(sig)[*];
 endproperty
 assert property (sig_locks_after_first_value);
+h)solve the ones from tom's assignments of abv
