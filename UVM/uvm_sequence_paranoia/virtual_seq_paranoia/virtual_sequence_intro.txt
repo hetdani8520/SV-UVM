@@ -21,4 +21,4 @@ How is sqr initialized??
 ->directly set in the test class
 
 --------------------------------------------------------
-Refer to virtual sequence example:- virtual_sequence_ex.sv (This uses init_start() method of virtual sequence to start vseq in test class)
+Refer to virtual sequence example:- virtual_sequence_on_single_agent.sv (This uses init_start() method of virtual sequence to start vseq in test class)

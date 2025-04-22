@@ -13,7 +13,7 @@ class wr_rd_seq extends uvm_sequence;
     read_all_sequence seq_rd;
     
     seq_wr = writeN_sequence:::type_id::create("seq_wr");
-    seq_wr.start(ahbb_cfg.sqr, this);
+    seq_wr.start(ahb_cfg.sqr, this);
     
     seq_rd = read_al_sequence::type_id::create("seq_rd");
     seq_rd.start(ahb_cfg.sqr, this);
