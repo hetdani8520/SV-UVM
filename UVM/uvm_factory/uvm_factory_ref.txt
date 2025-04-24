@@ -1,0 +1,37 @@
+UVM Factory:
+-->The purpose of UVM Factory is to enable object of one type to be substituted with object of derived type without changing the
+testbench structure or even the testbench code. The mechanism is referred to as an override, by either instance or type.
+The override mechanism is only acceptable between classes which are polymorphically compatible with each other.
+
+3 Steps for Factory Coding convention:
+1)Factory Registration:
+-->for components register class name using `uvm_component_utils macros
+-->for objects register class name using `uvm_object_utils macros
+-->for parameterized components register class name using `uvm_component_param_utils
+-->for parameterized objects register class name using `uvm_object_param_utils
+
+2)Constructor defaults:
+-->for component classes derived from uvm_component, following is the default constructor definition:
+function new(string name, uvm_component parent);
+super.new(name,parent);
+endfunction 
+-->for classes derived from uvm_object base class, following is the default constructor definition:
+function new(string name);
+super.new(name);
+endfunction
+
+3)Component & Object creation:
+a)For Component object creation:
+-->my_component my_my_component; //non-parameterized component handle
+my_my_component = my_component::type_id::create("my_my_component", this);
+
+-->my_param_component #(.ADDR_WIDTH(32), .DATA_WIDTH(32)) my_my_p_component; //parameterized component handle
+my_my_p_component = my_param_component #(32,32)::type_id::create("my_my_p_component", this);
+
+b)For Object creation:
+-->my_seq test_seq; //non-parameterized uvm_object
+test_seq = my_seq::type_id::create("test_seq");
+
+-->my_param_seq #(.ADDR_WIDTH(32), .DATA_WIDTH(32)) p_test_seq; //parameterized object
+p_test_seq = my_param_seq #(32,32)::type_id::create("p_test_seq");
+
