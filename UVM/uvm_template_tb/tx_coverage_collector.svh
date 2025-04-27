@@ -26,9 +26,9 @@ class tx_item extends uvm_sequence_item;
   
   rand bit [7:0] drbg_inst_size;
   
-  typedef enum logic [1:0] {ENT_PCS, NRBG_SETUP, DRBG_SETUP, SELF_TEST} mode;
+  typedef enum logic [1:0] {ENT_PCS, NRBG_SETUP, DRBG_SETUP, SELF_TEST} modes;
   
-  rand mode;
+  rand mode modes;
   
   rand bit test_mode;
   
@@ -49,9 +49,9 @@ class tx_coverage_collector extends uvm_subscriber #(tx_item);
     option.per_instance=1;
     
     //this coverpoint could be written in 2 ways:
-    //1)without explicit bins (in this case tool will generate an implicit bin for all legal values of enum "mode")
+    //1)without explicit bins (in this case tool will generate an implicit bin for all legal values of enum "modes")
     //2)with explicit bins (explicitly defining bins under a coverpoint restricts the scope of that coverpoint to only those bins, which is very useful from a cross coverage POV) [ this is employed below as well]
-    op_modes: coverpoint txn.mode {
+    op_modes: coverpoint txn.modes {
       bins ent_pcs = {0};
       bins nrbg_setup = {1};
       bins drbg_setup = {2};
@@ -81,25 +81,25 @@ class tx_coverage_collector extends uvm_subscriber #(tx_item);
     }
     
     //transition bins to cover/track functional flow of module in functional coverage
-    nrbg_flow_transition: coverpoint txn.mode{
+    nrbg_flow_transition: coverpoint txn.modes{
       bins nrbg_setup_transition = {3=>0=>1[*256]}; //nrbg_setup_flow (256 times also ensures reseed counter overflow)
       bins drbg_setup_transition = {3=>2};          //drbg_setup_flow
     }
     
     //This only covers 2 combinations: 1)ent_pcs x test_mode_en, ent_pcs x test_mode_dis
-    //cross to cover ent_pcs mode with enabled & disabled test_mode configuration
-    cross_ent_pcs_x_test_mode: cross txn.mode,txn.test_mode{
-      ignore_bins redundant_1 = binsof(txn.mode) intersect {1,2,3} && binsof(test_mode); 
+    //cross to cover ent_pcs modes with enabled & disabled test_mode configuration
+    cross_ent_pcs_x_test_mode: cross txn.modes,txn.test_mode{
+      ignore_bins redundant_1 = binsof(txn.modes) intersect {1,2,3} && binsof(test_mode); 
     }
     
-    //cross of all possible rnd_sizes with nrbg_setup & drbg_setup mode
-    cross_mode_x_drbg_gen_size: cross txn.mode, txn.drbg_gen_size{
-      ignore_bins remove_mode_0_3_crosses = binsof(txn.mode) intersect {0,3} && binsof(txn.drbg_gen_size);
+    //cross of all possible rnd_sizes with nrbg_setup & drbg_setup modes
+    cross_mode_x_drbg_gen_size: cross txn.modes, txn.drbg_gen_size{
+      ignore_bins remove_mode_0_3_crosses = binsof(txn.modes) intersect {0,3} && binsof(txn.drbg_gen_size);
     }
     
-    //cross of all legal seed values with only drbg_setup mode (as this mode only uses user-defined seeds)
-    cross_mode_x_drbg_inst_size: cross txn.mode, txn.drbg_inst_size{
-      ignore_bins remove_red_modes = binsof(txn.mode) intersect {0,1,3} && binsof(txn.drbg_inst_size);
+    //cross of all legal seed values with only drbg_setup modes (as this modes only uses user-defined seeds)
+    cross_mode_x_drbg_inst_size: cross txn.modes, txn.drbg_inst_size{
+      ignore_bins remove_red_modes = binsof(txn.modes) intersect {0,1,3} && binsof(txn.drbg_inst_size);
     }
   endgroup
   
