@@ -1,0 +1,9 @@
+Out-of-order scoreboard design:
+1. An OOO scoreboard/comparator makes no assumption that matching transactions will appear in the same order from the expected & actual sides.
+2. The ooo scoreboard design in this dir captures incoming expected & actual traffic (from predictors & monitors resp) in the form of
+associative array holding queue of items & asso array is indexed by unique int value. In the DUT, a unique value could be id/addr which will be
+unique for every txn.
+2. The reason for modeling associative array holding queue of items is because under out-of_order txns there is a potential of txn's 
+arriving for the same id multiple times & hence they need to be captured until their comparison with the opposite stream is completed.
+Please note: when txns to same idx arrive, they will get compared in-order as & when the corresponding txn from opposite stream for same
+idx would arrive.
