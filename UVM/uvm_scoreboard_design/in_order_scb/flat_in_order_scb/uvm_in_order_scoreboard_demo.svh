@@ -32,6 +32,9 @@ class uvm_in_order_scoreboard #(type T = tx_item) extends uvm_scoreboard;
   
   //variable storing status of scoreboard (enabled/diabled) during a test
   bit enable_scoreboard=1;
+
+  //max_txn_to_print(incase scb is not empty post run_phase() completion)
+  int max_txn_to_print = 5;
   
   
   virtual function new(string name, uvm_component parent);
@@ -110,5 +113,21 @@ class uvm_in_order_scoreboard #(type T = tx_item) extends uvm_scoreboard;
     join_none
     end
   endfunction
+
+  //cleanup phase for in-order scb
+//check if no oustanding txns remain in exp_queue?
+
+virtual function void check_phase(uvm_phase phase);
+  T exp_txn;
+  int fifo_entry;
+  
+  if(expected_q.size() != 0) begin:txns_still_remain
+    while((expected_q.size() != 0) && (fifo_entry < max_txn_to_print)) begin:print_entries
+      exp_txn = expected_q.pop_front(); `uvm_info("OUT_TXN",$sformatf("outstanding_txn%d:%s",fifo_entry++,exp_txn.convert2string()),UVM_LOW)
+    end:print_entries
+    `uvm_error("SCBD","SCOREBOARD NOT EMPTY");
+  end:txns_still_remain
+  
+endfunction
   
 endclass
