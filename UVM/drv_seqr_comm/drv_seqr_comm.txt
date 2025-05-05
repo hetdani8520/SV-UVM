@@ -1,0 +1,13 @@
+Sequencer-Driver Use Models:
+1)Unidirectional (request handshake between drv-sqr) - no response from Driver
+2)Bidirectional (non-pipelined). E.g: AMBA APB (req-rsp sent based on handshake one at a time)
+-the next txn will not be sent until the prev txn's rsp is recieved by sequence from driver (via seqr's rsp FIFO)
+3)Bidirectional (Pipelined -In-order). E.g: AMBA AHB (Address phase & data phase pipelined) - Address phase of next txn can overlap with data phase of prev txn
+4)Birectional (Pipelined -Out-of-order) - Advanced...
+
+
+--------------x-------------------------x--------------------------------------------
+**Unidirectional comm (where sequence can generate multiple txns w/o waiting for driver to process one by one):
+1)When the driver calls get(), it unblocks the sequence start_item(), recieves a handle to seq_item() & immediately unblocks
+the sequence finish_item().
+2)The sequence can exit or call start_item() to wait for another request from the driver (Driver could start multiple txns in parallel to get())
