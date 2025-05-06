@@ -1,0 +1,29 @@
+DPI-C Paranoia:
+-->DPI is an interface between systemverilog & a foreign programming language.
+-->Neither the systemverilog compiler nor the foreign language compiler is required to analyze the source code in the other's language.
+
+Tasks & functions:
+-->Tasks & functions are the minimum granularity of information exchange over DPI between native (systemverilog) & foreign(C,C++ etc) programming language.
+-->Functions implemented in foreign language can be called from systemverilog; such functions are called IMPORT FUNCTIONS.
+-->systemverilog functions that are to be called from a foreign code shall be specified in EXPORT declarations.
+
+Notes:
+1) It is not possible to import the data types or directly use the type syntax from another language.
+
+***Special properties pure & context:
+a)special properties can be specified for an imported function subroutine as "pure" or as "context".
+
+**Pure:
+1a)A function whose result depends solely on the values of its input arguments & with no side effects can be specified as pure.
+1b)This can usually allow for more optimizations & thus can result in improved simulation performance.
+1c)An imported task can never be declared as pure.
+
+**context:
+2a)An imported subroutine that is intended to call exported subroutines or to access systemverilog data objects other than its
+actual arguments  (via VPI calls) shall be specified as context.
+
+References:
+1) https://github.com/adki/DPI_Tutorial/blob/main/slides/01_DPI_introduction.pdf
+2) https://stackoverflow.com/questions/26861400/systemverilog-how-to-connect-c-function-using-dpi-call-in-vcs-simulator
+3) https://stackoverflow.com/questions/1041866/what-is-the-effect-of-extern-c-in-c
+4) context import function example:- https://www.edaplayground.com/x/NUa9
