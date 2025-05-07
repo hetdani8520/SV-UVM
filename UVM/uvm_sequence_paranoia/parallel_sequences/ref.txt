@@ -4,3 +4,5 @@ Scenario:
 let's say we are trying to model some traffic that we want to see on a bus, if we just ran one sequence by itself, we will see from a processor
 runnning on a bus, we would see processor fetching instructions from seq addresses 0x1000,0x1002,0x1004 etc...This kind of testing will mainly be homogenous & is unlikely to catch bugs (if any)
 What if we try simulating a bus & adding some extra txns(essentially noise) with normal txns just to see if we can trip up that processor?
+
+Ref example:- parallel_seq_gotchas.sv
