@@ -23,3 +23,12 @@ Ex:- constraint a 16 bit number such that all the 1's that it has must be consec
 ## Random bits of a vector to be randomized/fixed?
 4. Variant-4:- write a systemverilog constraint to produce a 32-bit vector with 2 bits different.
 (ref:- vec_only_2_bits_change.sv)
+
+## Different ways(SV constraint) to generate all bits 1 for a 16-bit vector:
+1. $countones
+2. manual foreach iterate over each bit
+3. part-select function with unary operator combo
+4. replication operator
+5. sum() method
+6. signed/unsigned logic (x=-1)
+7. (power of 2) - 1
