@@ -25,10 +25,13 @@ Ex:- constraint a 16 bit number such that all the 1's that it has must be consec
 (ref:- vec_only_2_bits_change.sv)
 
 ## Different ways(SV constraint) to generate all bits 1 for a 16-bit vector:
+### ref:- all_ones_constraint.sv
 1. $countones
 2. manual foreach iterate over each bit
 3. part-select function with unary operator combo
-4. replication operator
-5. sum() method
-6. signed/unsigned logic (x=-1)
-7. (power of 2) - 1
+4. power of 2
+5. left-shift 1 by N (alternative to power of 2)
+6. replication operator (very important to provide size of replicated value else unsized constants are defaulted to 32-bits in a constraint)
+7. signed-unsigned hack (providing size of value is important here as well => a == -(16'd1)
+8. negation unary operator (a == ~(16'd0))
+9. sum() method is illegal on packed arrays/vectors. (LRM:- "Array manipulation methods can be applied to unpacked arrays or queues")
