@@ -1,0 +1,6 @@
+Notes:
+1)export function declaration in Sv world DOES NOT need to be a prototype (with return type & arg declaration).
+2)args to function as inputs need not be explicitly defined (I think this rec is ok as in SV by-default args are treated as input unless explicitly defined)
+3)automatic function necessary if function is intended to have recursive behavior (automatic functions are rentrant)
+4)it is important to have imported function from C++ in SV as "context" defined if it leverages any exported SV function to arrive at its final results.
+5)extern declarations for all the exported functions from SV to C as well as all imported functions from C to SV should be defined in the foreign language(C++) body. 
