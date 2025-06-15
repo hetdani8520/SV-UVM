@@ -9,6 +9,7 @@ For Ex.: lets say exactly x=4 elements should be y=5 (assuming 1d-array) (constr
 ## Unique: constraint hack to generate unique elements in a multi-dim array:(can be scaled for NxN arr)
 ### ref:-unique_2d_arr/unique_2d_arr_constraint.sv (for 1-5)
 TODO: constraint should be scaled to make sure "all" but not only "every" rows/cols/main_diagonal/anti_diagonal is unique
+IMP:Property of transitivity only applies to > or < relation but NOT to equality operations
 1. only "every" row unique
 2. only "every"col unique
 3. only "every" main-diagonal unique
