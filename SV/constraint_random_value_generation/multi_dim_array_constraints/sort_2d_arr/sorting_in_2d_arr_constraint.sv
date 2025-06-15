@@ -19,15 +19,13 @@ class sort_2d;
   
   //only main diag sort
   constraint only_main_diag {foreach(arr[i]){
-    foreach(arr[k]){
-      if(i<k){
-        arr[i][i] < arr[k][k];}}}}
+      if(i<N-1){ //a<b & b<c then a<c (transitivity of the less-than relation) --> [(0,0) < (1,1), (1,1) < (2,2) => (0,0) < (2,2)]
+        arr[i][i] < arr[i+1][i+1];}}}
   
   //only anti-diag sort
   constraint only_anti_diag {foreach(arr[i]){
-    foreach(arr[k]){
-      if(i<k){
-        arr[i][N-1-i] < arr[k][N-1-k];}}}}
+    if(i<N-1){ //a<b & b<c => a<c (transitivity of the less-than relation) --> [(0,2) < (1,1), (1,1) < (2,0) => (0,2) < (2,0)]
+        arr[i][N-1-i] < arr[i+1][N-i-2];}}}
 
 endclass
       
