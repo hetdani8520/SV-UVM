@@ -1,0 +1,29 @@
+CFV Notes:
+Part-1: Introduction to Verification
+a)Verification Cycle: cyclic process. Feedback from last projects are leveraged & used for next-gen projects to facilitate reuse as much as possible.
+b)Customer requirements is what primarily drives the architecture & design specification phase of ASIC/SoC design life-Cycle.
+c)Verification challenge:- 1)Huge state space explosion, 2)detect incorrect behaviour
+d)Verification engineers cannot ignore illegal states. One needs to test the recoverability of the design once it enters the illegal state. The design needs to be able to recover from an illegal state & not cause deadlocks/hangs forever.
+H/W should be able to recover from these illegal/unexpected conditions.
+e)constraints on the top-of mind during chip design process: 1)Schedule (TTM), 2)Cost(less re-spins/post-si bugs, 3)Quality (subjective to customer requirements)
+f)verification productivity is determined primarily by two factors: 1)schedule time 2)quality of bugs found
+g)Engineering costs:- Design management teams often calculate the engineering cost of veriﬁcation by the ratio of logic designers to veriﬁcation engineers. This
+ratio can vary in industry from about 1:1 to 1:4 (four veriﬁcation engineers for every designer).
+
+***Verification cycle:
+1)Functional specification: passdown(essentially) from arch team
+2)Create Verification plan: based on design spec & constant feedback from designers this plan is made robust & acts as base for verification.
+3)Develop Environment: create verif Environment(components,stim gen transactors etc), ref model impl(could also be a passdown from arch) etc.
+4)Debug HDL & Environment: create basic tests to run for sanity when HDL is hooked in with verif env. This step either helps in identifying RTL bugs or also helps in identifying
+verif env bugs (bugs in software code - endianness, checker bugs, driving  etc.)
+5)Regression:- running tests on a regular basis primarily for 3 reasons:
+a)The ﬁrst reason is that veriﬁcation environments often have elements of randomization, which drive different input scenarios each time the
+team runs the test.
+b)The second reason is that the team must repeat all tests after ﬁxes have been applied to the design.
+c)To uncover hard-to-ﬁnd bugs, veriﬁcation teams leverage large workstation pools, or “farms,” to run an ever-increasing number of
+veriﬁcation jobs. (regressions are run on nightly/weekly basis on CI/CD servers under a CRV Environment)
+6)Fabricate hardware:- tape-out criteria from verif POV (coverage if metric is CDV, bug-rate vs time). a milestone to celebrate post tape-out
+7)Debug Fabricated Hardware (Systems test): post-si debug
+8)Escape analysis:- reproduce bugs discovered during hw-bring up in simulation to root-cause why the bug was missed in pre-silicon. reasons could be
+because testing on beh model vs hard macro is intended to introduce variability. (recall NRBG). Learnings should be documented to prevent similar issues on next-gen products (if feasible) 
+9)
