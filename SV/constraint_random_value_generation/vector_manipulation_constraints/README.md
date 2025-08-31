@@ -24,6 +24,10 @@ Ex:- constraint a 16 bit number such that all the 1's that it has must be consec
 4. Variant-4:- write a systemverilog constraint to produce a 32-bit vector with 2 bits different.
 (ref:- vec_only_2_bits_change.sv)
 
+5. Variant-5:- random width & fixed start_idx
+Ex:- Write a constraint for a 32-bit variable such that the number of trailing zeros is between 5 and 10 & rest bits are one
+(ref:- trailing_zeros_vec_manipulation.sv)
+
 ## Different ways(SV constraint) to generate all bits 1 for a 16-bit vector:
 ### ref:- all_ones_constraint.sv
 1. $countones
