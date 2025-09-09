@@ -11,3 +11,4 @@ elements
 8. generate a solved sudoku puzzle
 9. For a 8 bit variable if the past randomization resulted in a odd value, the next randomization should be even with 75% probability else be even with 25% probability. Write a constraint stream of random numbers are getting generated. how to write constraints to make sure most recent four numbers are unique.
 10. Write a constraint to generate two dynamic arrays such that array1 size = [6:9], array2 size = array1 size. Array 1 should be assembled in ascending order while array2 should have all the values picked from array1
+11. Write a constraint to generate the factorial of the first 5 even and odd numbers
